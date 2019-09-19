@@ -10,6 +10,29 @@ class Room extends Component {
     }
   }
 
+
+  fetchPeople = num => {
+    fetch(`https://randomuser.me/api/?results=${num}&inc=name,login,picture&nat=us`)
+      .then(res => res.json())
+      .then(data => {
+        const newPeople = data.results.map(person => ({
+          id: person.login.uuid,
+          name: `${person.name.first} ${person.name.last}`,
+          picture: person.picture.large
+        }))
+
+        this.setState({
+          people: [...this.state.people, ...newPeople],
+          totalVisits: this.state.people.length + newPeople.length,
+          loading: false
+        })
+      })
+  }
+
+  componentDidMount(){
+    this.fetchPeople(this.state.totalVisits)
+  }
+  
   render(){
     return (
       <div className="room-container">
