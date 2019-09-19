@@ -1,68 +1,91 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Component Lifecycle
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+To get started you must first clone this repo to your computer.
 
-### `npm start`
+`git clone git@github.com:aaronholla/react-component-lifecycle.git`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Next be sure to run `yarn` to install the dependencies.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+> If you would like to reference the final application switch over to the `final` branch.
 
-### `npm test`
+## React Component
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### What exactly is a React Component? 
+A Component is a small reusable container(instance) that holds the state, props, and the React elements that represent the component. 
 
-### `npm run build`
+In practice this means components are a class instance that extends React.Component or a function that takes in props and returns React elements. Classes can also store state that represents the data for that component for itself to reference and update. 
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> Function components now have a way to pull in state called hooks, however, they handle lifecycle a little bit differently so we will only be focused on class components for now.  
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### What are React Elements?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The elements of the component are simply a JavaScript object that represents what the component should display on the screen. The type of elements can be a DOM element such as a div or it can be another component. React will know to go to that component to figure out what DOM element needs to be displayed.
 
-### `npm run eject`
+```js
+{
+  type: 'button',
+  props: {
+    className: 'button button-blue',
+    children: {
+      type: 'b',
+      props: {
+        children: 'OK!'
+      }
+    }
+  }
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Is the same as this HTML:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```html
+<button class='button button-blue'>
+  <b>
+    OK!
+  </b>
+</button>
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Stages of a Components Life
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+There are three main stages to a react component. Mounting, Updating, and Unmounting.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+React components start out unmounted. 
 
-### Code Splitting
+### Mounting
+The first stage of a react component is mounting. Mounting is whenever a component gets rendered to the DOM for the first time. This is where React will setup the instances for each component that stores any state and its initial props. 
+### Updating
+A component will enter into the updating state if it is mounted and a new prop is passed in or setState is called inside the component. 
+### Unmounting
+A component will be unmounted when it is no longer part of the DOM. This can happen if a parent component conditionally rendering a child. 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
+## Lifecycle Methods
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Lifecycle methods are a way for us to hook into the different events that React will trigger on our components. The most popular of these events is after it is first created in the dom, when props or state are changed, and before it is removed from the dom.
 
-### Making a Progressive Web App
+### constructor
+Used to initialize a component with state or bind methods to the component instance. components are not mounted when this is called. Cannot set state on unmounted components. This means that you cannot call setState inside the constructor
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### componentDidMount
+called after the component is mounted, can update state here if you need to and access any dom elements that you may need or make any network requests. 
 
-### Advanced Configuration
+### render
+called when it needs to put something on the screen. Called when it initially renders as well as when a new prop is passed in or setState is called. Render is called before the component is mounted or changes reflected in the dom. You can think of render the same as staging changes in git. Render will stage the changes and then react will update the dom to match these changes.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### componentDidUpdate
+called after a component is updated, can update state here if needed and make network requests. Good if you need to update state based on if a prop changed or make a network request with new props/state. You should check current props against prevProps inside componentDidUpdate if you are going to setState otherwise it will cause an infinite loop because it will constantly update the component.
 
-### Deployment
+### componentWillUnmount
+called right before the component is unmounted. This is good for when you need to clean up anything the component may leave behind, such as clearing timers or canceling network requests. You should not call setState here as the component will not be rerendered. Once a component is unmounted it will never be mounted again.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `npm run build` fails to minify
+## References 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- https://reactjs.org/docs/react-component.html  
+- https://blog.logrocket.com/the-new-react-lifecycle-methods-in-plain-approachable-language-61a2105859f3/  
+- http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
