@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Person from './Person'
 
 class Room extends Component {
   constructor(props){
@@ -34,10 +35,15 @@ class Room extends Component {
   }
   
   render(){
+    const { people, loading } = this.state
     return (
       <div className="room-container">
         <button>New Visitor</button>
         <div className="room">
+          {people.map(person => (
+              <Person {...person} key={person.id} />
+          ))}
+          { loading && <Person pending /> }
         </div>
       </div>
     )
