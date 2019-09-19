@@ -21,8 +21,8 @@ class Room extends Component {
     })
   }
 
-  fetchPeople = num => {
-    fetch(`https://randomuser.me/api/?results=${num}&inc=name,login,picture&nat=us`)
+  fetchPerson = _ => {
+    fetch(`https://randomuser.me/api/?inc=name,login,picture&nat=us`)
       .then(res => res.json())
       .then(data => {
         const newPeople = data.results.map(person => ({
@@ -40,12 +40,12 @@ class Room extends Component {
   }
 
   componentDidMount(){
-    this.fetchPeople(this.state.totalVisits)
+    this.fetchPerson()
   }
 
   componentDidUpdate(_, prevState){
     if (this.state.totalVisits > prevState.totalVisits && this.state.loading) {
-      this.fetchPeople(this.state.totalVisits - prevState.totalVisits)
+      this.fetchPerson()
     }
   }
   
