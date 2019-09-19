@@ -11,6 +11,22 @@ class Person extends Component {
     }
   }
 
+  componentDidMount(){
+    if (!this.props.pending) {
+      this.timerID = setInterval(
+        () => {
+          const timeSinceArrival = DateTime.local().diff(this.state.arrivalTime).toFormat("hh:mm:ss")
+          this.setState({timeSinceArrival})
+        },
+        1000
+      )
+    }
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.timerID)
+  }
+
   render(){
     const { id, name, picture, remove, pending } = this.props
     const {timeSinceArrival} = this.state
