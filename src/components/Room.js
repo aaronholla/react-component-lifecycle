@@ -11,6 +11,9 @@ class Room extends Component {
     }
   }
 
+  newVisit = _ => {
+    this.setState({ totalVisits: this.state.totalVisits + 1, loading: true })
+  }
 
   fetchPeople = num => {
     fetch(`https://randomuser.me/api/?results=${num}&inc=name,login,picture&nat=us`)
@@ -38,7 +41,7 @@ class Room extends Component {
     const { people, loading } = this.state
     return (
       <div className="room-container">
-        <button>New Visitor</button>
+        <button onClick={this.newVisit}>New Visitor</button>
         <div className="room">
           {people.map(person => (
               <Person {...person} key={person.id} />
