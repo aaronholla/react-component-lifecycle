@@ -36,6 +36,12 @@ class Room extends Component {
   componentDidMount(){
     this.fetchPeople(this.state.totalVisits)
   }
+
+  componentDidUpdate(_, prevState){
+    if (this.state.totalVisits > prevState.totalVisits && this.state.loading) {
+      this.fetchPeople(this.state.totalVisits - prevState.totalVisits)
+    }
+  }
   
   render(){
     const { people, loading } = this.state
