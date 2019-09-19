@@ -50,7 +50,7 @@ Is the same as this HTML:
 
 ## Stages of a Components Life
 
-
+[![Diagram](lifecycle-diagram.png)](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
 There are three main stages to a react component. Mounting, Updating, and Unmounting.
 
