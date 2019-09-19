@@ -10,14 +10,14 @@ class Person extends Component {
   }
 
   render(){
-    const { name, picture, pending } = this.props
+    const { id, name, picture, remove, pending } = this.props
     const {timeSinceArrival} = this.state
     return (
       <div className="person">
         {pending ? (
           <img src={Placeholder} alt="Placeholder" />
         ) : (
-          <img src={picture} alt={name} />
+          <img src={picture} alt={name} onClick={() => remove(id)} />
         )}
         <h3>{name || "Loading..."}</h3>
         <h4>{timeSinceArrival}</h4>
