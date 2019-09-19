@@ -15,6 +15,12 @@ class Room extends Component {
     this.setState({ totalVisits: this.state.totalVisits + 1, loading: true })
   }
 
+  removePerson = id => {
+    this.setState({
+      people: this.state.people.filter( people => people.id !== id )
+    })
+  }
+
   fetchPeople = num => {
     fetch(`https://randomuser.me/api/?results=${num}&inc=name,login,picture&nat=us`)
       .then(res => res.json())
@@ -50,7 +56,7 @@ class Room extends Component {
         <button onClick={this.newVisit}>New Visitor</button>
         <div className="room">
           {people.map(person => (
-              <Person {...person} key={person.id} />
+              <Person {...person} key={person.id} remove={this.removePerson} />
           ))}
           { loading && <Person pending /> }
         </div>
